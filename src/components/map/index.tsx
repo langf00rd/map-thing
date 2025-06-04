@@ -8,7 +8,7 @@ import CustomRadius from "./custom-radius";
 import PlacesOfInterest from "./pois";
 import { SearchHandler } from "./search";
 
-delete (L.Icon.Default.prototype as any)._getIconUrl;
+// delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -31,12 +31,16 @@ export default function Map() {
     <div className="h-screen w-full">
       <PlacesOfInterest data={pois} />
       <MapContainer
+        zoomControl={false}
         center={center}
         zoom={13}
         style={{ height: "100%", width: "100%" }}
         doubleClickZoom={false}
       >
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+        />
         <SearchHandler />
         {/* user location marker */}
         {userLocation && (
