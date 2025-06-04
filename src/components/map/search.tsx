@@ -1,9 +1,8 @@
-"use client";
-
 import { MapSearchResult } from "@/lib/types";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
+import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 
 function MapSearchBox(props: {
@@ -34,41 +33,44 @@ function MapSearchBox(props: {
   }, [query]);
 
   return (
-    <div className="absolute top-4 right-4 z-[1000] bg-white p-3 rounded shadow w-[300px]">
-      <Input
-        type="text"
-        value={query}
-        placeholder="Search a place..."
-        onChange={(e) => setQuery(e.target.value)}
-        className="w-full border p-2 rounded text-sm"
-      />
-      {isSearching && (
-        <div className="w-full flex items-center justify-center p-5">
-          <Loader className="animate-spin" />
-        </div>
-      )}
-      {results.length > 0 && (
-        <ul className="mt-2 border rounded max-h-60 overflow-y-auto text-sm">
-          {results.map((r) => (
-            <li
-              key={`${r.lat}-${r.lon}`}
-              onClick={() => {
-                props.onSelectLocation(
-                  parseFloat(r.lat),
-                  parseFloat(r.lon),
-                  r.display_name,
-                );
-                setQuery("");
-                setResults([]);
-              }}
-              className="cursor-pointer p-2 hover:bg-gray-100"
-            >
-              {r.display_name}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <Card className="absolute p-4 top-4 right-4 z-[1000] w-[400px]">
+      <CardContent className="p-0">
+        <Input
+          type="text"
+          value={query}
+          placeholder="Search a location..."
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full bg-white"
+        />
+        {isSearching && (
+          <div className="w-full flex items-center justify-center p-5">
+            <Loader className="animate-spin" />
+          </div>
+        )}
+        {results.length > 0 && (
+          <ul className="overflow-y-scroll max-h-[60vh] mt-3">
+            {results.map((r) => (
+              <li
+                role="button"
+                className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
+                key={`${r.lat}-${r.lon}`}
+                onClick={() => {
+                  props.onSelectLocation(
+                    parseFloat(r.lat),
+                    parseFloat(r.lon),
+                    r.display_name,
+                  );
+                  setQuery("");
+                  setResults([]);
+                }}
+              >
+                <p>{r.display_name}</p>
+              </li>
+            ))}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
   );
 }
 

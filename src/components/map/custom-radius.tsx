@@ -3,9 +3,11 @@
 import { useMapStore } from "@/lib/store";
 import { Store } from "@/lib/types";
 import { LatLng } from "leaflet";
+import { BanIcon, CircleIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Circle, useMapEvents } from "react-leaflet";
 import { Button } from "../ui/button";
+import { Card, CardContent } from "../ui/card";
 
 export default function CustomRadius(props: {
   onRadiusComplete: (center: LatLng, radius: number) => void;
@@ -56,13 +58,6 @@ export default function CustomRadius(props: {
           pathOptions={{ color: "blue", fillOpacity: 0.1 }}
         />
       ))}
-      {/* {center && finalRadius > 0 && (
-        <Circle
-          center={center}
-          radius={finalRadius}
-          pathOptions={{ color: "blue", fillOpacity: 0.1 }}
-        />
-      )} */}
       {start && tempRadius > 0 && (
         <Circle
           center={start}
@@ -70,18 +65,28 @@ export default function CustomRadius(props: {
           pathOptions={{ color: "red", dashArray: "4 4", fillOpacity: 0.05 }}
         />
       )}
-      <div className="fixed space-x-2 p-2 bottom-5 right-5 bg-white z-[1000]">
-        <Button
-          onClick={() => setMapRadiusDrawingEnabled(!mapRadiusDrawingEnabled)}
-        >
-          {mapRadiusDrawingEnabled ? "Disable radius" : "Enable radius"}
-        </Button>
-        {radii.length >= 1 && (
-          <Button onClick={() => setRadii([])} variant="destructive">
-            Clear radius
+      <Card className="fixed space-x-2 p-4 bottom-5 right-4 z-[1000]">
+        <CardContent className="p-0 flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => setMapRadiusDrawingEnabled(!mapRadiusDrawingEnabled)}
+          >
+            {mapRadiusDrawingEnabled ? <BanIcon /> : <CircleIcon />}
+            {mapRadiusDrawingEnabled ? "Disable radius" : "Enable radius"}
           </Button>
-        )}
-      </div>
+          {radii.length >= 1 && (
+            <Button
+              size="sm"
+              onClick={() => setRadii([])}
+              variant="outline-destructive"
+            >
+              <XIcon />
+              Clear radius
+            </Button>
+          )}
+        </CardContent>
+      </Card>
     </>
   );
 }
