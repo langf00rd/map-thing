@@ -1,6 +1,6 @@
 export interface POI {
   id: string;
-  name?: string;
+  name: string;
   lat: number;
   lon: number;
   type: string;
