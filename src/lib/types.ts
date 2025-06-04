@@ -11,3 +11,8 @@ export interface MapSearchResult {
   lat: string;
   lon: string;
 }
+
+export interface Store {
+  mapRadiusDrawingEnabled: boolean;
+  setMapRadiusDrawingEnabled: (enabled: boolean) => void;
+}

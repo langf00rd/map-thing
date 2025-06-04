@@ -1,12 +1,15 @@
 "use client";
 
 import { MapSearchResult } from "@/lib/types";
+import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
+import { Input } from "../ui/input";
 
 function MapSearchBox(props: {
   onSelectLocation: (lat: number, lon: number, label: string) => void;
 }) {
+  const [isSearching, setIsSearching] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<MapSearchResult[]>([]);
   const [debounceTimeout, setDebounceTimeout] = useState<NodeJS.Timeout | null>(
@@ -14,33 +17,36 @@ function MapSearchBox(props: {
   );
 
   useEffect(() => {
-    if (!query || query.length < 3) {
-      setResults([]);
-      return;
-    }
-
+    if (!query || query.length < 3) return setResults([]);
     if (debounceTimeout) clearTimeout(debounceTimeout);
 
+    setIsSearching(true);
     const timeout = setTimeout(async () => {
       const res = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
       );
       const data = await res.json();
       setResults(data);
-    }, 300); // Debounce
+      setIsSearching(false);
+    }, 300);
 
     setDebounceTimeout(timeout);
   }, [query]);
 
   return (
-    <div className="absolute top-4 left-4 z-[1000] bg-white p-3 rounded shadow w-[300px]">
-      <input
+    <div className="absolute top-4 right-4 z-[1000] bg-white p-3 rounded shadow w-[300px]">
+      <Input
         type="text"
         value={query}
         placeholder="Search a place..."
         onChange={(e) => setQuery(e.target.value)}
         className="w-full border p-2 rounded text-sm"
       />
+      {isSearching && (
+        <div className="w-full flex items-center justify-center p-5">
+          <Loader className="animate-spin" />
+        </div>
+      )}
       {results.length > 0 && (
         <ul className="mt-2 border rounded max-h-60 overflow-y-auto text-sm">
           {results.map((r) => (

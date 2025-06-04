@@ -5,6 +5,7 @@ import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import CustomRadius from "./custom-radius";
+import PlacesOfInterest from "./pois";
 import { SearchHandler } from "./search";
 
 delete (L.Icon.Default.prototype as any)._getIconUrl;
@@ -28,6 +29,7 @@ export default function Map() {
 
   return (
     <div className="h-screen w-full">
+      <PlacesOfInterest data={pois} />
       <MapContainer
         center={center}
         zoom={13}
