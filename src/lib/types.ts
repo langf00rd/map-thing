@@ -16,3 +16,11 @@ export interface Store {
   mapRadiusDrawingEnabled: boolean;
   setMapRadiusDrawingEnabled: (enabled: boolean) => void;
 }
+
+export interface OverpassAPIElement {
+  id: string;
+  tags: { name?: string };
+  lat: number;
+  lon: number;
+  center: { lat: number; lon: number };
+}

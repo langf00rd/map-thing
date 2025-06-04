@@ -1,4 +1,4 @@
-import { POI } from "@/lib/types";
+import { OverpassAPIElement, POI } from "@/lib/types";
 import { useEffect, useState } from "react";
 
 export function useAppMap() {
@@ -27,8 +27,8 @@ export function useAppMap() {
     const data = await res.json();
 
     const results: POI[] = data.elements
-      .filter((el: any) => el.tags && (el.lat || el.center))
-      .map((el: any) => ({
+      .filter((el: OverpassAPIElement) => el.tags && (el.lat || el.center))
+      .map((el: OverpassAPIElement) => ({
         id: el.id,
         name: el.tags?.name,
         lat: el.lat || el.center.lat,
