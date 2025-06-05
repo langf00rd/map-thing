@@ -15,6 +15,8 @@ export interface MapSearchResult {
 export interface Store {
   mapRadiusDrawingEnabled: boolean;
   setMapRadiusDrawingEnabled: (enabled: boolean) => void;
+  selectedPOI: POI | null;
+  setSelectedPOI: (poi: Store["selectedPOI"]) => void;
 }
 
 export interface OverpassAPIElement {

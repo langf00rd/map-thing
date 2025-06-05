@@ -1,14 +1,14 @@
 "use client";
 
 import { useAppMap } from "@/hooks/use-map";
+import { useMapStore } from "@/lib/store";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import CustomRadius from "./custom-radius";
 import PlacesOfInterest from "./pois";
 import { SearchHandler } from "./search";
-
-// delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -18,7 +18,16 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function Map() {
+  const markerRefs = useRef<{ [key: string]: L.Marker | null }>({});
+  const mapStore = useMapStore();
   const { fetchPOIs, pois, center, setCenter, userLocation } = useAppMap();
+
+  useEffect(() => {
+    if (mapStore.selectedPOI?.id) {
+      const marker = markerRefs.current[mapStore.selectedPOI.id];
+      if (marker) marker.openPopup();
+    }
+  }, [mapStore.selectedPOI]);
 
   const handleRadiusComplete = (center: LatLng, radius: number) => {
     setCenter([center.lat, center.lng]);
@@ -55,17 +64,19 @@ export default function Map() {
           >
             <Popup>
               <strong>you are here</strong>
-              <br />
-              Lat: {userLocation[0].toFixed(4)}
-              <br />
-              Lng: {userLocation[1].toFixed(4)}
             </Popup>
           </Marker>
         )}
         <CustomRadius onRadiusComplete={handleRadiusComplete} />
         {pois.map((poi) => (
-          <Marker key={poi.id} position={[poi.lat, poi.lon]}>
-            <Popup>
+          <Marker
+            key={poi.id}
+            position={[poi.lat, poi.lon]}
+            ref={(el) => {
+              if (el) markerRefs.current[poi.id] = el;
+            }}
+          >
+            <Popup className="opacity-1">
               <strong>{poi.name || "(Unnamed)"}</strong>
               <br />
               Type: {poi.type}

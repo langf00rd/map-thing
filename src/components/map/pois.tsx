@@ -1,9 +1,11 @@
+import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
 import { useState } from "react";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 
 export default function PlacesOfInterest(props: { data: POI[] }) {
+  const mapStore = useMapStore();
   const [query, setQuery] = useState("");
 
   const results = query
@@ -30,10 +32,12 @@ export default function PlacesOfInterest(props: { data: POI[] }) {
           <ul className="px-4">
             {results.map((poi) => (
               <li
+                role="button"
+                onClick={() => mapStore.setSelectedPOI(poi)}
                 key={poi.id}
-                className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
+                className={`p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer ${mapStore.selectedPOI?.id === poi.id ? "bg-neutral-200/40" : ""}`}
               >
-                <p className="font-semibold">{poi.name}</p>
+                <p className="font-medium">{poi.name}</p>
                 <p className="text-neutral-500">{poi.type}</p>
               </li>
             ))}

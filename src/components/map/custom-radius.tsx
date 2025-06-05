@@ -1,7 +1,6 @@
 "use client";
 
 import { useMapStore } from "@/lib/store";
-import { Store } from "@/lib/types";
 import { LatLng } from "leaflet";
 import { BanIcon, CircleIcon, XIcon } from "lucide-react";
 import { useState } from "react";
@@ -16,12 +15,9 @@ export default function CustomRadius(props: {
   const [tempRadius, setTempRadius] = useState<number>(0);
   const [radii, setRadii] = useState<{ center: LatLng; radius: number }[]>([]);
 
-  const mapRadiusDrawingEnabled = useMapStore(
-    (state) => (state as Store).mapRadiusDrawingEnabled,
-  );
-  const setMapRadiusDrawingEnabled = useMapStore(
-    (state) => (state as Store).setMapRadiusDrawingEnabled,
-  );
+  const mapStore = useMapStore();
+  const mapRadiusDrawingEnabled = mapStore.mapRadiusDrawingEnabled;
+  const setMapRadiusDrawingEnabled = mapStore.setMapRadiusDrawingEnabled;
 
   useMapEvents({
     click(e) {
