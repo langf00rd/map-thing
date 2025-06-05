@@ -1,45 +1,50 @@
+import { POIS_PER_RADIUS } from "@/lib/constants";
 import { OverpassAPIElement, POI } from "@/lib/types";
+import { fetchPOIs } from "@/services/pois";
 import { useEffect, useState } from "react";
 
 export function useAppMap() {
+  const [isFetchingPOIs, setIsFetchingPOIs] = useState(false);
   const [pois, setPois] = useState<POI[]>([]);
-  const [center, setCenter] = useState<[number, number] | null>(null); // null until we get location
+  const [center, setCenter] = useState<[number, number] | null>(null);
   const [userLocation, setUserLocation] = useState<[number, number] | null>(
     null,
   );
 
-  async function fetchPOIs(
-    latitude: number,
-    longitude: number,
-    radius: number,
-  ) {
-    const query = `
-      [out:json][timeout:25];
-      (
-        node(around:${radius},${latitude},${longitude});
-        way(around:${radius},${latitude},${longitude});
-        relation(around:${radius},${latitude},${longitude});
-      );
-      out center tags;
-    `;
-    const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`;
-    const res = await fetch(url);
-    const data = await res.json();
+  async function getPOIs(latitude: number, longitude: number, radius: number) {
+    try {
+      setIsFetchingPOIs(true);
 
-    const results: POI[] = data.elements
-      .filter((el: OverpassAPIElement) => el.tags && (el.lat || el.center))
-      .map((el: OverpassAPIElement) => ({
-        id: el.id,
-        name: el.tags?.name,
-        lat: el.lat || el.center.lat,
-        lon: el.lon || el.center.lon,
-        type: Object.keys(el.tags || {}).join(", "),
-      }));
+      const data = await fetchPOIs({
+        radius,
+        latitude,
+        longitude,
+      });
 
-    // results without undefined names
-    const validResults = results.filter((obj) => obj.name !== undefined);
-    setPois(validResults);
-    console.log(validResults);
+      const results: POI[] = data.elements
+        .filter(
+          (el: OverpassAPIElement) =>
+            el.tags &&
+            (el.lat || el.center) &&
+            !!el.tags.amenity &&
+            !!el.tags.name,
+        )
+        .map((el: OverpassAPIElement) => ({
+          id: el.id,
+          name: el.tags?.name,
+          lat: el.lat || el.center.lat,
+          lon: el.lon || el.center.lon,
+          type: el.tags.amenity?.replaceAll("_", " "),
+        }));
+
+      const limitedResults = results.slice(0, POIS_PER_RADIUS);
+
+      setPois(limitedResults);
+    } catch (err) {
+      alert(err);
+    } finally {
+      setIsFetchingPOIs(false);
+    }
   }
 
   function getUserCurrentLocation() {
@@ -68,10 +73,11 @@ export function useAppMap() {
   }, []);
 
   return {
-    fetchPOIs,
+    getPOIs,
     pois,
     center,
     setCenter,
     userLocation,
+    isFetchingPOIs,
   };
 }

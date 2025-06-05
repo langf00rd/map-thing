@@ -33,7 +33,7 @@ function MapSearchBox(props: {
   }, [query]);
 
   return (
-    <Card className="absolute p-4 top-4 right-4 z-[1000] w-[400px]">
+    <Card className="absolute p-2 top-4 right-4 z-[1000] w-[400px]">
       <CardContent className="p-0">
         <Input
           type="text"

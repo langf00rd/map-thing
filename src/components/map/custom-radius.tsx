@@ -6,7 +6,6 @@ import { BanIcon, CircleIcon, XIcon } from "lucide-react";
 import { useState } from "react";
 import { Circle, useMapEvents } from "react-leaflet";
 import { Button } from "../ui/button";
-import { Card, CardContent } from "../ui/card";
 
 export default function CustomRadius(props: {
   onRadiusComplete: (center: LatLng, radius: number) => void;
@@ -51,18 +50,18 @@ export default function CustomRadius(props: {
           key={idx}
           center={r.center}
           radius={r.radius}
-          pathOptions={{ color: "blue", fillOpacity: 0.1 }}
+          pathOptions={{ color: "gray", fillOpacity: 0.1 }}
         />
       ))}
       {start && tempRadius > 0 && (
         <Circle
           center={start}
           radius={tempRadius}
-          pathOptions={{ color: "red", dashArray: "4 4", fillOpacity: 0.05 }}
+          pathOptions={{ color: "black", dashArray: "2 10", fillOpacity: 0.1 }}
         />
       )}
-      <Card className="fixed space-x-2 p-4 bottom-5 right-4 z-[1000]">
-        <CardContent className="p-0 flex items-center gap-2">
+      <div className="fixed space-x-2 p-0 bottom-5 right-4 z-[1000]">
+        <div className="p-0 flex items-center gap-2">
           <Button
             size="sm"
             variant="outline"
@@ -81,8 +80,8 @@ export default function CustomRadius(props: {
               Clear radius
             </Button>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </>
   );
 }

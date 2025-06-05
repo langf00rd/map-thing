@@ -2,6 +2,8 @@
 
 import { useAppMap } from "@/hooks/use-map";
 import { useMapStore } from "@/lib/store";
+import { POI } from "@/lib/types";
+import { getPOIClassName } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
@@ -18,9 +20,9 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function Map() {
-  const markerRefs = useRef<{ [key: string]: L.Marker | null }>({});
   const mapStore = useMapStore();
-  const { fetchPOIs, pois, center, setCenter, userLocation } = useAppMap();
+  const markerRefs = useRef<{ [key: string]: L.Marker | null }>({});
+  const { getPOIs, pois, center, setCenter, userLocation } = useAppMap();
 
   useEffect(() => {
     if (mapStore.selectedPOI?.id) {
@@ -31,10 +33,15 @@ export default function Map() {
 
   const handleRadiusComplete = (center: LatLng, radius: number) => {
     setCenter([center.lat, center.lng]);
-    fetchPOIs(center.lat, center.lng, radius);
+    getPOIs(center.lat, center.lng, radius);
   };
 
-  if (!center) return <div className="p-4">🔍 Locating you...</div>;
+  if (!center)
+    return (
+      <div className="w-full h-full flex items-center justify-center">
+        Finding your location...
+      </div>
+    );
 
   return (
     <div className="h-screen w-full">
@@ -62,28 +69,37 @@ export default function Map() {
               iconAnchor: [11, 11],
             })}
           >
-            <Popup>
-              <strong>you are here</strong>
+            <Popup closeButton={false}>
+              <p>you are here</p>
             </Popup>
           </Marker>
         )}
         <CustomRadius onRadiusComplete={handleRadiusComplete} />
         {pois.map((poi) => (
           <Marker
+            icon={L.divIcon({
+              iconSize: [10, 10],
+              iconAnchor: [11, 11],
+              className: "user-location-marker",
+              html: customPOIMarker(poi),
+            })}
             key={poi.id}
             position={[poi.lat, poi.lon]}
             ref={(el) => {
               if (el) markerRefs.current[poi.id] = el;
             }}
           >
-            <Popup className="opacity-1">
+            <Popup closeButton={false}>
               <strong>{poi.name || "(Unnamed)"}</strong>
-              <br />
-              Type: {poi.type}
+              <p className="-mt-4 text-neutral-500">{poi.type}</p>
             </Popup>
           </Marker>
         ))}
       </MapContainer>
     </div>
   );
+}
+
+function customPOIMarker(poi: POI) {
+  return `<div style="height: 15px; width: 15px; border-radius: 50%; border: 1px solid white; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); ${getPOIClassName(poi)}"></div>`;
 }
