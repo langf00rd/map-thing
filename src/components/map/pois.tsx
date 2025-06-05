@@ -38,7 +38,7 @@ export default function PlacesOfInterest(props: { data: POI[] }) {
                 className={`p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer ${mapStore.selectedPOI?.id === poi.id ? "bg-neutral-200/40" : ""}`}
               >
                 <p className="font-medium">{poi.name}</p>
-                <p className="text-neutral-500">{poi.type}</p>
+                <p className="text-neutral-500 uppercase">{poi.type}</p>
               </li>
             ))}
           </ul>

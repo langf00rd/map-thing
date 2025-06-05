@@ -91,7 +91,7 @@ export default function Map() {
           >
             <Popup closeButton={false}>
               <strong>{poi.name || "(Unnamed)"}</strong>
-              <p className="-mt-4 text-neutral-500">{poi.type}</p>
+              <p className="uppercase -mt-4 text-neutral-500">{poi.type}</p>
             </Popup>
           </Marker>
         ))}
