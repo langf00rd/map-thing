@@ -1,11 +1,14 @@
 import {
   Bus,
   Castle,
+  Church,
   Drum,
+  Fuel,
   GraduationCap,
   Hamburger,
   Hospital,
   Landmark,
+  LucideIcon,
   Phone,
   Recycle,
   Store,
@@ -142,5 +145,16 @@ export const amenityClasses: AmenityClasses = {
       Amenity.WaterPoint,
     ],
     icon: Store,
+  },
+};
+
+export const customAmenityGroup: Partial<
+  Record<Amenity, { icon: LucideIcon }>
+> = {
+  [Amenity.PlaceOfWorship]: {
+    icon: Church,
+  },
+  [Amenity.Fuel]: {
+    icon: Fuel,
   },
 };
