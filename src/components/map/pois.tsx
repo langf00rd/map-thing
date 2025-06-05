@@ -26,7 +26,8 @@ export default function PlacesOfInterest(props: {
     props.data.forEach((a) => {
       amenities.push(a.type);
     });
-    return amenities;
+    const uniqueAmenities = new Set(amenities);
+    return Array.from(uniqueAmenities);
   }
 
   const dataAmenities = getAmenitiesFromData();
