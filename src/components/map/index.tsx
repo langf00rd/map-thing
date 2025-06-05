@@ -3,10 +3,12 @@
 import { useAppMap } from "@/hooks/use-map";
 import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
-import { getIconByAmenity, getPOIClassName } from "@/lib/utils";
+import { getIconByAmenity } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { LucideIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import CustomRadius from "./custom-radius";
 import PlacesOfInterest from "./pois";
@@ -107,6 +109,37 @@ export default function Map() {
   );
 }
 
+export function renderIconToSVG(Icon: LucideIcon, size = 16): string {
+  const IconComponent = <Icon size={size} strokeWidth={1.5} />;
+  return renderToStaticMarkup(IconComponent);
+}
+
 function customPOIMarker(poi: POI) {
-  return `<div style="height: 15px; width: 15px; border-radius: 50%; border: 1px solid white; box-shadow: 0 0 10px rgba(59, 130, 246, 0.5); ${getPOIClassName(poi)}"></div>`;
+  const Icon = getIconByAmenity(poi.type);
+  const iconSVG = renderIconToSVG(Icon, 14);
+
+  // return `<div
+  //     style="
+  //      display: flex;
+  //      align-items: center;
+  //      gap: 4px;
+  //      padding: 2px 6px;
+  //      background: white;
+  //      color: #1f2937; /* gray-800 */
+  //      border-radius: 9999px;
+  //      box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+  //      font-size: 12px;
+  //      font-family: sans-serif;
+  //      white-space: nowrap;
+  //    "
+  //   >
+  //     ${iconSVG}
+  //     <span>${poi.name}</span>
+  //     </div>`;
+
+  return `
+  <div style="display: flex; align-items: center; justify-content: center; height: 24px; width: 24px; border-radius: 50%; background: white; box-shadow: 0 0 8px #ccc;">
+      ${iconSVG}
+    </div>
+  `;
 }
