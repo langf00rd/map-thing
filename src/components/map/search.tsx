@@ -1,7 +1,7 @@
 import { MapSearchResult } from "@/lib/types";
-import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
+import ResponsiveRender from "../responsive-render";
 import { Card, CardContent } from "../ui/card";
 import { Input } from "../ui/input";
 
@@ -18,57 +18,78 @@ function MapSearchBox(props: {
   useEffect(() => {
     if (!query || query.length < 3) return setResults([]);
     if (debounceTimeout) clearTimeout(debounceTimeout);
-
-    setIsSearching(true);
-    const timeout = setTimeout(async () => {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
-      );
-      const data = await res.json();
-      setResults(data);
+    try {
+      setIsSearching(true);
+      const timeout = setTimeout(async () => {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
+        );
+        const data = await res.json();
+        setResults(data);
+        setDebounceTimeout(timeout);
+      }, 300);
+    } catch (err) {
+      alert(err);
+    } finally {
       setIsSearching(false);
-    }, 300);
-
-    setDebounceTimeout(timeout);
+    }
   }, [query]);
 
   return (
-    <Card className="absolute p-2 top-4 right-4 z-[1000] w-[400px]">
-      <CardContent className="p-0">
-        <Input
-          type="text"
-          value={query}
-          placeholder="Search a location..."
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full bg-white"
-        />
-        {isSearching && (
-          <div className="w-full flex items-center justify-center p-5">
-            <Loader className="animate-spin" />
+    <ResponsiveRender desktopPosition="TOP-RIGHT" mobilePosition="TOP-CENTER">
+      <SearchView
+        isSearching={isSearching}
+        query={query}
+        setQuery={setQuery}
+        onSelectLocation={props.onSelectLocation}
+        results={results}
+      />
+    </ResponsiveRender>
+  );
+}
+
+function SearchView(props: {
+  query: string;
+  setQuery: (q: string) => void;
+  onSelectLocation: (lat: number, lon: number, name: string) => void;
+  results: MapSearchResult[];
+  isSearching: boolean;
+}) {
+  return (
+    <>
+      <Card className={`w-full max-h-[40vh] overflow-y-scroll p-0 pt-0`}>
+        <CardContent className="p-0">
+          <div>
+            <div className="sticky space-y-2 top-0 p-4">
+              <Input
+                value={props.query}
+                placeholder="Search..."
+                className="bg-white"
+                onChange={(evt) => props.setQuery(evt.target.value)}
+              />
+            </div>
+            <ul className="px-4">
+              {props.results.map((r) => (
+                <li
+                  role="button"
+                  className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
+                  key={`${r.lat}-${r.lon}`}
+                  onClick={() => {
+                    props.onSelectLocation(
+                      parseFloat(r.lat),
+                      parseFloat(r.lon),
+                      r.display_name,
+                    );
+                  }}
+                >
+                  <p>{r.display_name}</p>
+                </li>
+              ))}
+            </ul>
           </div>
-        )}
-        {results.length > 0 && (
-          <ul className="overflow-y-scroll max-h-[60vh] mt-3">
-            {results.map((r) => (
-              <li
-                role="button"
-                className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
-                key={`${r.lat}-${r.lon}`}
-                onClick={() => {
-                  props.onSelectLocation(
-                    parseFloat(r.lat),
-                    parseFloat(r.lon),
-                    r.display_name,
-                  );
-                }}
-              >
-                <p>{r.display_name}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 }
 

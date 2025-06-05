@@ -36,6 +36,14 @@ export interface AmenityClasses {
   };
 }
 
+export type Position =
+  | "TOP-LEFT"
+  | "TOP-RIGHT"
+  | "BOTTOM-LEFT"
+  | "BOTTOM-RIGHT"
+  | "TOP-CENTER"
+  | "BOTTOM-CENTER";
+
 export enum Amenity {
   // sustenance
   Bar = "bar",

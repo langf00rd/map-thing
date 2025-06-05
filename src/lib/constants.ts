@@ -16,6 +16,7 @@ import {
 import { Amenity, AmenityClasses } from "./types";
 
 export const POIS_PER_RADIUS = 100;
+export const MOBILE_VIEW_BREAKPOINT = 768; // px
 
 export const amenityClasses: AmenityClasses = {
   healthcareAmenityClasses: {
