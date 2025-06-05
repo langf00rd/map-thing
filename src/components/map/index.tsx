@@ -3,7 +3,7 @@
 import { useAppMap } from "@/hooks/use-map";
 import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
-import { getPOIClassName } from "@/lib/utils";
+import { getIconByAmenity, getPOIClassName } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
@@ -22,7 +22,8 @@ L.Icon.Default.mergeOptions({
 export default function Map() {
   const mapStore = useMapStore();
   const markerRefs = useRef<{ [key: string]: L.Marker | null }>({});
-  const { getPOIs, pois, center, setCenter, userLocation } = useAppMap();
+  const { getPOIs, pois, center, setCenter, userLocation, isFetchingPOIs } =
+    useAppMap();
 
   useEffect(() => {
     if (mapStore.selectedPOI?.id) {
@@ -45,7 +46,7 @@ export default function Map() {
 
   return (
     <div className="h-screen w-full">
-      <PlacesOfInterest data={pois} />
+      <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} />
       <MapContainer
         zoomControl={false}
         center={center}
@@ -70,31 +71,37 @@ export default function Map() {
             })}
           >
             <Popup closeButton={false}>
-              <p>you are here</p>
+              <p>You are here</p>
             </Popup>
           </Marker>
         )}
         <CustomRadius onRadiusComplete={handleRadiusComplete} />
-        {pois.map((poi) => (
-          <Marker
-            icon={L.divIcon({
-              iconSize: [10, 10],
-              iconAnchor: [11, 11],
-              className: "user-location-marker",
-              html: customPOIMarker(poi),
-            })}
-            key={poi.id}
-            position={[poi.lat, poi.lon]}
-            ref={(el) => {
-              if (el) markerRefs.current[poi.id] = el;
-            }}
-          >
-            <Popup closeButton={false}>
-              <strong>{poi.name || "(Unnamed)"}</strong>
-              <p className="uppercase -mt-4 text-neutral-500">{poi.type}</p>
-            </Popup>
-          </Marker>
-        ))}
+        {pois.map((poi) => {
+          const Icon = getIconByAmenity(poi.type);
+          return (
+            <Marker
+              icon={L.divIcon({
+                iconSize: [10, 10],
+                iconAnchor: [11, 11],
+                className: "user-location-marker",
+                html: customPOIMarker(poi),
+              })}
+              key={poi.id}
+              position={[poi.lat, poi.lon]}
+              ref={(el) => {
+                if (el) markerRefs.current[poi.id] = el;
+              }}
+            >
+              <Popup closeButton={false}>
+                <span className="size-[30px] mb-2 bg-neutral-200 flex items-center justify-center rounded-full">
+                  <Icon size={16} />
+                </span>
+                <strong>{poi.name || "(Unnamed)"}</strong>
+                <p className="uppercase -mt-4 text-neutral-500">{poi.type}</p>
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
     </div>
   );

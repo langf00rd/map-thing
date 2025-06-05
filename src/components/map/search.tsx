@@ -60,8 +60,6 @@ function MapSearchBox(props: {
                     parseFloat(r.lon),
                     r.display_name,
                   );
-                  setQuery("");
-                  setResults([]);
                 }}
               >
                 <p>{r.display_name}</p>

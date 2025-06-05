@@ -1,3 +1,5 @@
+import { LucideIcon } from "lucide-react";
+
 export interface POI {
   id: string;
   name: string;
@@ -25,6 +27,13 @@ export interface OverpassAPIElement {
   lat: number;
   lon: number;
   center: { lat: number; lon: number };
+}
+
+export interface AmenityClasses {
+  [key: string]: {
+    classes: Amenity[];
+    icon: LucideIcon;
+  };
 }
 
 export enum Amenity {
