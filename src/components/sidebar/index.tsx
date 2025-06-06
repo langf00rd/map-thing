@@ -36,7 +36,7 @@ export default function SidebarPortal({
           {show ? <ChevronDown /> : <ChevronUp />}
         </Button>
       </div>
-      <div className="flex bg-white p-3 shadow-xl rounded-2xl flex-col overflow-y-auto md:gap-2 h-full">
+      <div className="flex bg-white p-3 pb-0 shadow-xl rounded-2xl flex-col overflow-y-auto md:gap-2 h-fit max-h-[97vh]">
         {children}
       </div>
     </div>,
