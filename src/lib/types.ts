@@ -21,6 +21,11 @@ export interface Store {
   setSelectedPOI: (poi: Store["selectedPOI"]) => void;
 }
 
+export interface GlobalStore {
+  isLocationSearchInputInFocus: boolean;
+  setIsLocationSearchInputInFocus: (state: boolean) => void;
+}
+
 export interface OverpassAPIElement {
   id: string;
   tags: { name?: string; amenity?: string };
@@ -46,6 +51,7 @@ export type Position =
 
 export enum Amenity {
   // sustenance
+  All = "all",
   Bar = "bar",
   Biergarten = "biergarten",
   Cafe = "cafe",

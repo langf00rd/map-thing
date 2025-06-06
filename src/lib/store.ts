@@ -1,5 +1,5 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
-import { Store } from "./types";
+import { GlobalStore, Store } from "./types";
 
 export const useMapStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   mapRadiusDrawingEnabled: false,
@@ -8,3 +8,11 @@ export const useMapStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   setMapRadiusDrawingEnabled: (enabled: boolean) =>
     set({ mapRadiusDrawingEnabled: enabled }),
 }));
+
+export const useGlobalStore: UseBoundStore<StoreApi<GlobalStore>> = create(
+  (set) => ({
+    isLocationSearchInputInFocus: false,
+    setIsLocationSearchInputInFocus: (state: boolean) =>
+      set({ isLocationSearchInputInFocus: state }),
+  }),
+);
