@@ -1,3 +1,4 @@
+import { useGlobalStore } from "@/lib/store";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
@@ -8,7 +9,8 @@ export default function SidebarPortal({
 }: {
   children: React.ReactNode;
 }) {
-  const [show, setShow] = useState(true);
+  const globalStore = useGlobalStore();
+  const [show, setShow] = useState(false);
   const [container, setContainer] = useState<HTMLElement | null>(null);
 
   function toggleShow() {
@@ -19,6 +21,10 @@ export default function SidebarPortal({
     const el = document.getElementById("overlay-root");
     if (el) setContainer(el);
   }, []);
+
+  useEffect(() => {
+    if (globalStore.isLocationSearchInputInFocus) setShow(true);
+  }, [globalStore.isLocationSearchInputInFocus]);
 
   if (!container) return null;
 
@@ -36,7 +42,7 @@ export default function SidebarPortal({
           {show ? <ChevronDown /> : <ChevronUp />}
         </Button>
       </div>
-      <div className="flex bg-white p-3 pb-0 shadow-xl rounded-2xl flex-col overflow-y-auto md:gap-2 h-fit max-h-[97vh]">
+      <div className="flex bg-white md:p-3 md:pb-0 md:shadow-xl md:rounded-2xl flex-col overflow-y-auto md:gap-2 h-fit max-h-[97vh]">
         {children}
       </div>
     </div>,
