@@ -1,8 +1,9 @@
 import { MapSearchResult } from "@/lib/types";
+import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
-import ResponsiveRender from "../responsive-render";
-import SearchView from "./views/search";
+import SidebarSection from "../sidebar/sidebar-section";
+import { Input } from "../ui/input";
 
 function MapSearchBox(props: {
   onSelectLocation: (lat: number, lon: number, label: string) => void;
@@ -35,15 +36,37 @@ function MapSearchBox(props: {
   }, [query]);
 
   return (
-    <ResponsiveRender desktopPosition="TOP-RIGHT" mobilePosition="TOP-CENTER">
-      <SearchView
-        isSearching={isSearching}
-        query={query}
-        setQuery={setQuery}
-        onSelectLocation={props.onSelectLocation}
-        results={results}
-      />
-    </ResponsiveRender>
+    <SidebarSection
+      className={`${results.length >= 1 ? "" : "md:flex-[0.052] flex-[0.092]"}`}
+    >
+      <div className="sticky top-0">
+        <Input
+          value={query}
+          placeholder="Search..."
+          className="bg-white"
+          onChange={(evt) => setQuery(evt.target.value)}
+        />
+      </div>
+      {isSearching && <Loader className="animate-spin" />}
+      <ul>
+        {results.map((r) => (
+          <li
+            role="button"
+            className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
+            key={`${r.lat}-${r.lon}`}
+            onClick={() => {
+              props.onSelectLocation(
+                parseFloat(r.lat),
+                parseFloat(r.lon),
+                r.display_name,
+              );
+            }}
+          >
+            <p>{r.display_name}</p>
+          </li>
+        ))}
+      </ul>
+    </SidebarSection>
   );
 }
 

@@ -60,7 +60,7 @@ export default function CustomRadius(props: {
           pathOptions={{ color: "black", dashArray: "2 10", fillOpacity: 0.1 }}
         />
       )}
-      <div className="fixed space-x-2 p-0 top-26 md:bottom-5 right-4 z-[1000]">
+      <div className="fixed space-x-2 p-0 top-2 right-2 md:right-4 z-[1000]">
         <div className="p-0 flex items-center gap-2">
           <Button
             size="sm"

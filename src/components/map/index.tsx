@@ -8,6 +8,7 @@ import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import SidebarPortal from "../sidebar";
 import CustomRadius from "./custom-radius";
 import PlacesOfInterest from "./pois";
 import { SearchHandler } from "./search";
@@ -46,7 +47,6 @@ export default function Map() {
 
   return (
     <div className="h-screen w-full">
-      <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} />
       <MapContainer
         zoomControl={false}
         center={center}
@@ -58,8 +58,12 @@ export default function Map() {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
         />
-        <SearchHandler />
-        {/* user location marker */}
+
+        <SidebarPortal>
+          <SearchHandler />
+          <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} />
+        </SidebarPortal>
+
         {userLocation && (
           <Marker
             position={userLocation}
@@ -75,7 +79,9 @@ export default function Map() {
             </Popup>
           </Marker>
         )}
+
         <CustomRadius onRadiusComplete={handleRadiusComplete} />
+
         {pois.map((poi) => {
           const Icon = getIconByAmenity(poi.type);
           return (
