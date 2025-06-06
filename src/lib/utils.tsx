@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { Home, LucideIcon } from "lucide-react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { twMerge } from "tailwind-merge";
 import { amenityClasses, customAmenityGroup } from "./constants";
 import { Amenity } from "./types";
@@ -19,4 +20,9 @@ export function getIconByAmenity(valueToCheck: Amenity): LucideIcon {
     }
   }
   return Home;
+}
+
+export function renderIconToSVG(Icon: LucideIcon, size = 16): string {
+  const IconComponent = <Icon size={size} strokeWidth={1.5} />;
+  return renderToStaticMarkup(IconComponent);
 }

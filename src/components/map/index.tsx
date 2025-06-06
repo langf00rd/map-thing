@@ -3,13 +3,12 @@
 import { useAppMap } from "@/hooks/use-map";
 import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
-import { getIconByAmenity } from "@/lib/utils";
+import { getIconByAmenity, renderIconToSVG } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { LucideIcon } from "lucide-react";
 import { useEffect, useRef } from "react";
-import { renderToStaticMarkup } from "react-dom/server";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import SidebarPortal from "../sidebar";
 import CustomRadius from "./custom-radius";
 import PlacesOfInterest from "./pois";
 import { SearchHandler } from "./search";
@@ -48,7 +47,6 @@ export default function Map() {
 
   return (
     <div className="h-screen w-full">
-      <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} />
       <MapContainer
         zoomControl={false}
         center={center}
@@ -60,8 +58,12 @@ export default function Map() {
           url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
         />
-        <SearchHandler />
-        {/* user location marker */}
+
+        <SidebarPortal>
+          <SearchHandler />
+          <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} />
+        </SidebarPortal>
+
         {userLocation && (
           <Marker
             position={userLocation}
@@ -77,7 +79,9 @@ export default function Map() {
             </Popup>
           </Marker>
         )}
+
         <CustomRadius onRadiusComplete={handleRadiusComplete} />
+
         {pois.map((poi) => {
           const Icon = getIconByAmenity(poi.type);
           return (
@@ -109,34 +113,9 @@ export default function Map() {
   );
 }
 
-export function renderIconToSVG(Icon: LucideIcon, size = 16): string {
-  const IconComponent = <Icon size={size} strokeWidth={1.5} />;
-  return renderToStaticMarkup(IconComponent);
-}
-
 function customPOIMarker(poi: POI) {
   const Icon = getIconByAmenity(poi.type);
   const iconSVG = renderIconToSVG(Icon, 14);
-
-  // return `<div
-  //     style="
-  //      display: flex;
-  //      align-items: center;
-  //      gap: 4px;
-  //      padding: 2px 6px;
-  //      background: white;
-  //      color: #1f2937; /* gray-800 */
-  //      border-radius: 9999px;
-  //      box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
-  //      font-size: 12px;
-  //      font-family: sans-serif;
-  //      white-space: nowrap;
-  //    "
-  //   >
-  //     ${iconSVG}
-  //     <span>${poi.name}</span>
-  //     </div>`;
-
   return `
   <div style="display: flex; align-items: center; justify-content: center; height: 24px; width: 24px; border-radius: 50%; background: white; box-shadow: 0 0 8px #ccc;">
       ${iconSVG}

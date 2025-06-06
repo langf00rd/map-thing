@@ -2,7 +2,7 @@ import { MapSearchResult } from "@/lib/types";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Marker, Popup, useMap } from "react-leaflet";
-import { Card, CardContent } from "../ui/card";
+import SidebarSection from "../sidebar/sidebar-section";
 import { Input } from "../ui/input";
 
 function MapSearchBox(props: {
@@ -18,57 +18,56 @@ function MapSearchBox(props: {
   useEffect(() => {
     if (!query || query.length < 3) return setResults([]);
     if (debounceTimeout) clearTimeout(debounceTimeout);
-
-    setIsSearching(true);
-    const timeout = setTimeout(async () => {
-      const res = await fetch(
-        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
-      );
-      const data = await res.json();
-      setResults(data);
+    try {
+      setIsSearching(true);
+      const timeout = setTimeout(async () => {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
+        );
+        const data = await res.json();
+        setResults(data);
+        setDebounceTimeout(timeout);
+      }, 300);
+    } catch (err) {
+      alert(err);
+    } finally {
       setIsSearching(false);
-    }, 300);
-
-    setDebounceTimeout(timeout);
+    }
   }, [query]);
 
   return (
-    <Card className="absolute p-2 top-4 right-4 z-[1000] w-[400px]">
-      <CardContent className="p-0">
+    <SidebarSection
+      className={`${results.length >= 1 ? "" : "md:flex-[0.052]"}`}
+    >
+      <div className="sticky top-0">
         <Input
-          type="text"
           value={query}
-          placeholder="Search a location..."
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full bg-white"
+          placeholder="Search..."
+          className="bg-white"
+          onChange={(evt) => setQuery(evt.target.value)}
         />
-        {isSearching && (
-          <div className="w-full flex items-center justify-center p-5">
-            <Loader className="animate-spin" />
-          </div>
-        )}
-        {results.length > 0 && (
-          <ul className="overflow-y-scroll max-h-[60vh] mt-3">
-            {results.map((r) => (
-              <li
-                role="button"
-                className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
-                key={`${r.lat}-${r.lon}`}
-                onClick={() => {
-                  props.onSelectLocation(
-                    parseFloat(r.lat),
-                    parseFloat(r.lon),
-                    r.display_name,
-                  );
-                }}
-              >
-                <p>{r.display_name}</p>
-              </li>
-            ))}
-          </ul>
-        )}
-      </CardContent>
-    </Card>
+      </div>
+      {isSearching && <Loader className="animate-spin" />}
+      <ul>
+        {results.map((r) => (
+          <li
+            role="button"
+            className="p-3 py-2 rounded-xl hover:bg-neutral-200/40 text-[12px] cursor-pointer"
+            key={`${r.lat}-${r.lon}`}
+            onClick={() => {
+              props.onSelectLocation(
+                parseFloat(r.lat),
+                parseFloat(r.lon),
+                r.display_name,
+              );
+              setResults([]);
+            }}
+          >
+            <p>{r.display_name}</p>
+          </li>
+        ))}
+      </ul>
+    </SidebarSection>
   );
 }
 
