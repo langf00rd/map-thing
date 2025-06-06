@@ -34,10 +34,11 @@ export interface OverpassAPIElement {
   center: { lat: number; lon: number };
 }
 
-export interface AmenityClasses {
+export interface AmenityProps {
   [key: string]: {
     classes: Amenity[];
     icon: LucideIcon;
+    color?: string;
   };
 }
 

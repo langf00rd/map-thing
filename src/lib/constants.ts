@@ -13,13 +13,13 @@ import {
   Recycle,
   Store,
 } from "lucide-react";
-import { Amenity, AmenityClasses } from "./types";
+import { Amenity, AmenityProps } from "./types";
 
 export const POIS_PER_RADIUS = 100;
 export const MOBILE_VIEW_BREAKPOINT = 768; // px
 
-export const amenityClasses: AmenityClasses = {
-  healthcareAmenityClasses: {
+export const amenityClasses: AmenityProps = {
+  healthcareAmenityProps: {
     classes: [
       Amenity.BabyHatch,
       Amenity.Clinic,
@@ -31,8 +31,9 @@ export const amenityClasses: AmenityClasses = {
       Amenity.Veterinary,
     ],
     icon: Hospital,
+    color: "#FF8F1F",
   },
-  foodAndDrinkAmenityClasses: {
+  foodAndDrinkAmenityProps: {
     classes: [
       Amenity.Bar,
       Amenity.Biergarten,
@@ -44,8 +45,9 @@ export const amenityClasses: AmenityClasses = {
       Amenity.Restaurant,
     ],
     icon: Hamburger,
+    color: "#FF8F1F",
   },
-  educationAmenityClasses: {
+  educationAmenityProps: {
     classes: [
       Amenity.College,
       Amenity.DrivingSchool,
@@ -57,8 +59,9 @@ export const amenityClasses: AmenityClasses = {
       Amenity.University,
     ],
     icon: GraduationCap,
+    color: "#AF6C38",
   },
-  transportAmenityClasses: {
+  transportAmenityProps: {
     classes: [
       Amenity.BicycleParking,
       Amenity.BicycleRental,
@@ -73,12 +76,14 @@ export const amenityClasses: AmenityClasses = {
       Amenity.Taxi,
     ],
     icon: Bus,
+    color: "#03CF6A",
   },
-  financialAmenityClasses: {
+  financialAmenityProps: {
     classes: [Amenity.ATM, Amenity.Bank, Amenity.BureauDeChange],
     icon: Landmark,
+    color: "#A2A19D",
   },
-  entertainmentAmenityClasses: {
+  entertainmentAmenityProps: {
     classes: [
       Amenity.ArtsCentre,
       Amenity.Casino,
@@ -93,8 +98,9 @@ export const amenityClasses: AmenityClasses = {
       Amenity.Theatre,
     ],
     icon: Drum,
+    color: "#FF6FAD",
   },
-  publicServiceAmenityClasses: {
+  publicServiceAmenityProps: {
     classes: [
       Amenity.Courthouse,
       Amenity.Embassy,
@@ -108,8 +114,9 @@ export const amenityClasses: AmenityClasses = {
       Amenity.Townhall,
     ],
     icon: Castle,
+    color: "#A87BF2",
   },
-  facilityAmenityClasses: {
+  facilityAmenityProps: {
     classes: [
       Amenity.Bench,
       Amenity.Clock,
@@ -121,16 +128,18 @@ export const amenityClasses: AmenityClasses = {
       Amenity.WasteBasket,
     ],
     icon: Phone,
+    color: "#FF8F1F",
   },
-  wasteManagementAmenityClasses: {
+  wasteManagementAmenityProps: {
     classes: [
       Amenity.Recycling,
       Amenity.WasteDisposal,
       Amenity.WasteTransferStation,
     ],
     icon: Recycle,
+    color: "#FF8F1F",
   },
-  otherAmenityClasses: {
+  otherAmenityProps: {
     classes: [
       Amenity.AnimalShelter,
       Amenity.Crematorium,
@@ -146,16 +155,19 @@ export const amenityClasses: AmenityClasses = {
       Amenity.WaterPoint,
     ],
     icon: Store,
+    color: "#FEAF00",
   },
 };
 
-export const customAmenityGroup: Partial<
-  Record<Amenity, { icon: LucideIcon }>
+export const customAmenityPropsGroup: Partial<
+  Record<Amenity, { icon: LucideIcon; color?: string }>
 > = {
   [Amenity.PlaceOfWorship]: {
     icon: Church,
+    color: "#FF8F1F",
   },
   [Amenity.Fuel]: {
     icon: Fuel,
+    color: "#2B8AEF",
   },
 };

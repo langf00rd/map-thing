@@ -3,7 +3,7 @@
 import { useAppMap } from "@/hooks/use-map";
 import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
-import { getIconByAmenity, renderIconToSVG } from "@/lib/utils";
+import { getAmenityProps, renderIconToSVG } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
@@ -82,7 +82,7 @@ export default function Map() {
         <CustomRadius onRadiusComplete={handleRadiusComplete} />
 
         {pois.map((poi) => {
-          const Icon = getIconByAmenity(poi.type);
+          const amenityPros = getAmenityProps(poi.type);
           return (
             <Marker
               icon={L.divIcon({
@@ -99,7 +99,7 @@ export default function Map() {
             >
               <Popup closeButton={false}>
                 <span className="size-[30px] mb-2 bg-neutral-200 flex items-center justify-center rounded-full">
-                  <Icon size={16} />
+                  <amenityPros.icon size={16} />
                 </span>
                 <strong>{poi.name || "(Unnamed)"}</strong>
                 <p className="uppercase -mt-4 text-neutral-500">{poi.type}</p>
@@ -113,10 +113,10 @@ export default function Map() {
 }
 
 function customPOIMarker(poi: POI) {
-  const Icon = getIconByAmenity(poi.type);
-  const iconSVG = renderIconToSVG(Icon, 14);
+  const amenityPros = getAmenityProps(poi.type);
+  const iconSVG = renderIconToSVG(amenityPros.icon, 14);
   return `
-  <div style="display: flex; align-items: center; justify-content: center; height: 24px; width: 24px; border-radius: 50%; background: white; box-shadow: 0 0 8px #ccc;">
+  <div style="display: flex; align-items: center; justify-content: center; height: 24px; width: 24px; border-radius: 50%; color: #fff; background: ${amenityPros.color}; box-shadow: 0 0 8px #ccc;">
       ${iconSVG}
     </div>
   `;
