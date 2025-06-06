@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { Amenity, AmenityProps } from "./types";
 
-export const POIS_PER_RADIUS = 100;
+export const POIS_PER_RADIUS = 300;
 export const MOBILE_VIEW_BREAKPOINT = 768; // px
 
 export const amenityClasses: AmenityProps = {
