@@ -68,7 +68,7 @@ export default function CustomRadius(props: {
             onClick={() => setMapRadiusDrawingEnabled(!mapRadiusDrawingEnabled)}
           >
             {mapRadiusDrawingEnabled ? <BanIcon /> : <CircleIcon />}
-            {mapRadiusDrawingEnabled ? "Disable radius" : "Enable radius"}
+            {mapRadiusDrawingEnabled ? "Disable drawing" : "Draw radius"}
           </Button>
           {radii.length >= 1 && (
             <Button

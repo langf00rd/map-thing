@@ -10,8 +10,7 @@ import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import SidebarPortal from "../sidebar";
 import CustomRadius from "./custom-radius";
-import PlacesOfInterest from "./pois";
-import { SearchHandler } from "./search";
+import { SearchHandler } from "./search-handler";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -60,8 +59,8 @@ export default function Map() {
         />
 
         <SidebarPortal>
-          <SearchHandler />
-          <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} />
+          <SearchHandler isFetchingPOIs={isFetchingPOIs} pois={pois} />
+          {/* <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} /> */}
         </SidebarPortal>
 
         {userLocation && (
