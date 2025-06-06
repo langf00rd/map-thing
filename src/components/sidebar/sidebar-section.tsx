@@ -10,7 +10,7 @@ export default function SidebarSection(props: {
     <section
       className={cn(
         // "flex-1 p-2 border rounded-2xl bg-[#ffffff85] bg-red-200 backdrop-blur-xl overflow-y-scroll",
-        "h-[50%] border p-3 bg-[#ffffff85] backdrop-blur-xl rounded-3xl overflow-y-scroll",
+        "md:h-[50%] max:h-[80vh] md:min-h-[6%] min-h-[20%] border p-3 bg-[#ffffff85] backdrop-blur-xl rounded-3xl overflow-y-scroll",
         props.className,
       )}
     >

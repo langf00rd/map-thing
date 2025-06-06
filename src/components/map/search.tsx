@@ -37,7 +37,7 @@ function MapSearchBox(props: {
 
   return (
     <SidebarSection
-      className={`${results.length >= 1 ? "" : "md:flex-[0.052] flex-[0.092]"}`}
+      className={`${results.length >= 1 ? "" : "md:flex-[0.052]"}`}
     >
       <div className="sticky top-0">
         <Input
@@ -60,6 +60,7 @@ function MapSearchBox(props: {
                 parseFloat(r.lon),
                 r.display_name,
               );
+              setResults([]);
             }}
           >
             <p>{r.display_name}</p>
