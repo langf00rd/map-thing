@@ -12,15 +12,17 @@ import { Input } from "./ui/input";
 
 const querySchema = z.object({
   ai_message: z.string(),
-  payload: z.array(
-    z.object({
-      id: z.number(),
-      name: z.string(),
-      lat: z.number(),
-      lon: z.number(),
-      type: z.string(),
-    }),
-  ),
+  payload: z
+    .array(
+      z.object({
+        id: z.number(),
+        name: z.string(),
+        lat: z.number(),
+        lon: z.number(),
+        type: z.string(),
+      }),
+    )
+    .nullable(),
 });
 
 export default function Chat(props: { pois: POI[] }) {
@@ -54,7 +56,7 @@ export default function Chat(props: { pois: POI[] }) {
             <div className="space-y-1">
               <p className="leading-[1.6] text-neutral-700">{a.ai_message}</p>
               <ul className="gap-1 flex flex-wrap">
-                {a.payload.map((b) => (
+                {a.payload?.map((b) => (
                   <li
                     className="border bg-secondary text-neutral-500 rounded-md p-1 px-2"
                     key={b.id}
