@@ -39,12 +39,13 @@ export default function Map() {
     getPOIs(center.lat, center.lng, radius);
   };
 
-  if (!center)
+  if (!center) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full h-full p-20 flex items-center justify-center">
         Finding your location...
       </div>
     );
+  }
 
   return (
     <div className="h-screen w-full">
