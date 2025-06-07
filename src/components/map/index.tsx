@@ -8,6 +8,8 @@ import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import Chat from "../chat";
+import RightSidebarPortal from "../right-sidebar";
 import SidebarPortal from "../sidebar";
 import CustomRadius from "./custom-radius";
 import { SearchHandler } from "./search-handler";
@@ -37,12 +39,13 @@ export default function Map() {
     getPOIs(center.lat, center.lng, radius);
   };
 
-  if (!center)
+  if (!center) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="w-full h-full p-20 flex items-center justify-center">
         Finding your location...
       </div>
     );
+  }
 
   return (
     <div className="h-screen w-full">
@@ -60,8 +63,17 @@ export default function Map() {
 
         <SidebarPortal>
           <SearchHandler isFetchingPOIs={isFetchingPOIs} pois={pois} />
-          {/* <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} /> */}
         </SidebarPortal>
+
+        <RightSidebarPortal>
+          <CustomRadius onRadiusComplete={handleRadiusComplete} />
+          <Chat pois={pois} />
+        </RightSidebarPortal>
+
+        <CustomRadius
+          className="absolute md:hidden m-2"
+          onRadiusComplete={handleRadiusComplete}
+        />
 
         {userLocation && (
           <Marker
@@ -78,8 +90,6 @@ export default function Map() {
             </Popup>
           </Marker>
         )}
-
-        <CustomRadius onRadiusComplete={handleRadiusComplete} />
 
         {pois.map((poi) => {
           const amenityPros = getAmenityProps(poi.type);
