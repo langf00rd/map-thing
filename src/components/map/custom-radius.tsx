@@ -1,6 +1,7 @@
 "use client";
 
 import { useMapStore } from "@/lib/store";
+import { cn } from "@/lib/utils";
 import { LatLng } from "leaflet";
 import { BanIcon, CircleIcon, XIcon } from "lucide-react";
 import { useState } from "react";
@@ -9,6 +10,7 @@ import { Button } from "../ui/button";
 
 export default function CustomRadius(props: {
   onRadiusComplete: (center: LatLng, radius: number) => void;
+  className?: string;
 }) {
   const [start, setStart] = useState<LatLng | null>(null);
   const [tempRadius, setTempRadius] = useState<number>(0);
@@ -60,7 +62,7 @@ export default function CustomRadius(props: {
           pathOptions={{ color: "black", dashArray: "2 10", fillOpacity: 0.1 }}
         />
       )}
-      <div className="space-x-2">
+      <div className={cn("space-x-2 z-[1000]", props.className)}>
         <div className="p-0 flex items-center gap-2">
           <Button
             size="sm"

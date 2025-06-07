@@ -62,13 +62,17 @@ export default function Map() {
 
         <SidebarPortal>
           <SearchHandler isFetchingPOIs={isFetchingPOIs} pois={pois} />
-          {/* <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} /> */}
         </SidebarPortal>
 
         <RightSidebarPortal>
-          <Chat />
+          <Chat pois={pois} />
           <CustomRadius onRadiusComplete={handleRadiusComplete} />
         </RightSidebarPortal>
+
+        <CustomRadius
+          className="absolute md:hidden m-2"
+          onRadiusComplete={handleRadiusComplete}
+        />
 
         {userLocation && (
           <Marker

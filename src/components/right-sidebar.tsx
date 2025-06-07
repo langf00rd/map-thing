@@ -30,7 +30,7 @@ export default function RightSidebarPortal({
 
   return createPortal(
     <div
-      className={`p-3 fixed z-[9999] md:w-[400px] w-screen rounded-t-2xl md:rounded-t-none md:h-screen bottom-0 md:top-0 right-0 md:bg-transparent bg-white ${show ? "h-[70vh]" : "h-[15vh]"}`}
+      className={`p-3 fixed z-[9999] md:w-[400px] w-screen rounded-t-2xl md:rounded-t-none md:h-screen bottom-0 md:top-0 right-0 md:bg-transparent bg-white ${show ? "h-[70vh]" : "h-[15vh]"} hidden md:block`}
     >
       <div className="w-max mx-auto md:hidden mb-2">
         <Button

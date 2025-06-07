@@ -1,59 +1,67 @@
 "use client";
 
 import { openRouterChatModel } from "@/lib/ai";
+import { POI } from "@/lib/types";
 import { generateObject } from "ai";
+import { BotIcon } from "lucide-react";
 import { useState } from "react";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
-export default function Chat() {
+const querySchema = z.object({
+  ai_message: z.string(),
+  payload: z.array(
+    z.object({
+      id: z.number(),
+      name: z.string(),
+      lat: z.number(),
+      lon: z.number(),
+      type: z.string(),
+    }),
+  ),
+});
+
+export default function Chat(props: { pois: POI[] }) {
   const [query, setQuery] = useState("");
-  const [responses, setResponses] = useState<string[]>([]);
+  const [responses, setResponses] = useState<z.infer<typeof querySchema>[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   async function submit() {
     setIsSubmitting(true);
-
-    const sample_data = [
-      { name: "john doe", age: 11 },
-      { name: "jane doe", age: 20 },
-      { name: "tricia doe", age: 93 },
-    ];
-
     const { object } = await generateObject({
       model: openRouterChatModel,
-      schema: z.object({
-        payload: z.object({
-          name: z.string(),
-          age: z.string(),
-        }),
-      }),
-      prompt: `${query} ${JSON.stringify(sample_data)}`,
+      schema: querySchema,
+      prompt: `${query} ${JSON.stringify(props.pois)}`,
     });
-
-    console.log("object", object);
-
-    // const { text } = await generateText({
-    //   model: openRouterChatModel,
-    //   prompt: query,
-    // });
-
-    setResponses((prev) => [...prev, JSON.stringify(object)]);
+    setResponses((prev) => [...prev, object]);
     setIsSubmitting(false);
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="font-semibold">Assistant</h2>
-      <ul className="space-y-3">
-        {responses.map((a) => (
-          <li key={a} className="text-sm">
-            {a}
+    <div className="space-y-4 max-h-[60vh] overflow-y-scroll">
+      <h2 className="font-semibold">Assistant [BETA]</h2>
+      <ul className="space-y-5">
+        {responses.map((a, index) => (
+          <li key={index} className="text-sm space-y-1">
+            <BotIcon />
+            <div className="space-y-1">
+              <p className="leading-[1.6] text-neutral-700">{a.ai_message}</p>
+              <ul className="gap-1 flex flex-wrap">
+                {a.payload.map((b) => (
+                  <li
+                    className="border bg-secondary text-neutral-500 rounded-md p-1 px-2"
+                    key={b.id}
+                  >
+                    {b.name}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </li>
         ))}
       </ul>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 sticky bottom-0 z-10 bg-white">
         <Input
           value={query}
           onChange={(evt) => setQuery(evt.target.value)}
