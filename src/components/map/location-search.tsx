@@ -1,5 +1,6 @@
 import { useGlobalStore } from "@/lib/store";
 import { MapSearchResult } from "@/lib/types";
+import { searchLocation } from "@/services/location";
 import { Loader } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
@@ -20,18 +21,14 @@ export default function LocationSearch(props: {
   }
 
   useEffect(() => {
-    if (!query || query.length < 3) return setResults([]);
+    if (!query) return;
     const timeout = setTimeout(async () => {
-      setIsSearching(true);
       try {
-        const res = await fetch(
-          `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`,
-        );
-        const data = await res.json();
-        setResults(data);
+        setIsSearching(true);
+        const locations = await searchLocation(query);
+        setResults(locations);
       } catch (err) {
-        console.error("Fetch error:", err);
-        setResults([]);
+        alert(err);
       } finally {
         setIsSearching(false);
       }

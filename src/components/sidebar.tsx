@@ -2,7 +2,7 @@ import { useGlobalStore } from "@/lib/store";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Button } from "../ui/button";
+import { Button } from "./ui/button";
 
 export default function SidebarPortal({
   children,
