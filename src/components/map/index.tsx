@@ -8,6 +8,8 @@ import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
+import Chat from "../chat";
+import RightSidebarPortal from "../right-sidebar";
 import SidebarPortal from "../sidebar";
 import CustomRadius from "./custom-radius";
 import { SearchHandler } from "./search-handler";
@@ -63,6 +65,11 @@ export default function Map() {
           {/* <PlacesOfInterest isLoading={isFetchingPOIs} data={pois} /> */}
         </SidebarPortal>
 
+        <RightSidebarPortal>
+          <Chat />
+          <CustomRadius onRadiusComplete={handleRadiusComplete} />
+        </RightSidebarPortal>
+
         {userLocation && (
           <Marker
             position={userLocation}
@@ -78,8 +85,6 @@ export default function Map() {
             </Popup>
           </Marker>
         )}
-
-        <CustomRadius onRadiusComplete={handleRadiusComplete} />
 
         {pois.map((poi) => {
           const amenityPros = getAmenityProps(poi.type);
