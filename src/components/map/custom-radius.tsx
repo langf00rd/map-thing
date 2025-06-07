@@ -46,7 +46,7 @@ export default function CustomRadius(props: {
   });
 
   return (
-    <>
+    <div className="flex justify-end">
       {radii.map((r, idx) => (
         <Circle
           key={idx}
@@ -84,6 +84,6 @@ export default function CustomRadius(props: {
           )}
         </div>
       </div>
-    </>
+    </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { openRouterChatModel } from "@/lib/ai";
+import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
 import { POI } from "@/lib/types";
 import { generateObject } from "ai";
 import { BotIcon } from "lucide-react";
@@ -32,15 +33,20 @@ export default function Chat(props: { pois: POI[] }) {
     const { object } = await generateObject({
       model: openRouterChatModel,
       schema: querySchema,
-      prompt: `${query} ${JSON.stringify(props.pois)}`,
+      prompt: SYSTEM_PROMPT(query, props.pois),
     });
     setResponses((prev) => [...prev, object]);
     setIsSubmitting(false);
+    setQuery("");
   }
 
+  if (props.pois.length < 1) return null;
+
   return (
-    <div className="space-y-4 bg-white p-4 md:shadow-xl rounded-2xl max-h-[60vh] overflow-y-scroll">
-      <h2 className="font-semibold">Assistant [BETA]</h2>
+    <div className="space-y-4 bg-white px-4 md:shadow-xl rounded-2xl max-h-[60vh] overflow-y-scroll">
+      <h2 className="font-semibold sticky py-2 top-0 bg-white">
+        Assistant [BETA]
+      </h2>
       <ul className="space-y-5">
         {responses.map((a, index) => (
           <li key={index} className="text-sm space-y-1">
@@ -61,7 +67,7 @@ export default function Chat(props: { pois: POI[] }) {
           </li>
         ))}
       </ul>
-      <div className="flex items-center gap-2 sticky bottom-0 z-10 bg-white">
+      <div className="flex py-4 items-center gap-2 sticky bottom-0 z-10 bg-white">
         <Input
           value={query}
           onChange={(evt) => setQuery(evt.target.value)}
