@@ -24,14 +24,12 @@ export function useAppMap() {
       const results: POI[] = data.elements
         .filter(
           (el: OverpassAPIElement) =>
-            el.tags &&
-            (el.lat || el.center) &&
-            !!el.tags.amenity &&
-            !!el.tags.name,
+            el.tags && (el.lat || el.center) && !!el.tags.amenity,
+          // && !!el.tags.name,
         )
         .map((el: OverpassAPIElement) => ({
           id: el.id,
-          name: el.tags?.name,
+          name: el.tags?.name || "(Unnamed)",
           lat: el.lat || el.center.lat,
           lon: el.lon || el.center.lon,
           type: el.tags.amenity?.replaceAll("_", " "),
