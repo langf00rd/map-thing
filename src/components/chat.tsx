@@ -39,7 +39,7 @@ export default function Chat(props: { pois: POI[] }) {
   }
 
   return (
-    <div className="space-y-4 max-h-[60vh] overflow-y-scroll">
+    <div className="space-y-4 bg-white p-4 md:shadow-xl rounded-2xl max-h-[60vh] overflow-y-scroll">
       <h2 className="font-semibold">Assistant [BETA]</h2>
       <ul className="space-y-5">
         {responses.map((a, index) => (

@@ -66,8 +66,8 @@ export default function Map() {
         </SidebarPortal>
 
         <RightSidebarPortal>
-          <Chat pois={pois} />
           <CustomRadius onRadiusComplete={handleRadiusComplete} />
+          <Chat pois={pois} />
         </RightSidebarPortal>
 
         <CustomRadius
