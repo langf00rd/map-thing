@@ -45,7 +45,6 @@ export default function Chat() {
 
   return (
     <div className="space-y-4">
-      {process.env.NEXT_PUBLIC_OPENROUTER_API_KEY}
       <h2 className="font-semibold">Assistant</h2>
       <ul className="space-y-3">
         {responses.map((a) => (
