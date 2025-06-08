@@ -14,6 +14,7 @@ async function fetchRSS(location: string) {
   //   item.title.toLowerCase().includes(location.toLowerCase()),
   // );
 
+  // TODO:all the below is shit. use ML/AI check if any of the rss titles with matching words are actually related to the location
   const locationWords = location.toLowerCase().split(/\s+/).filter(Boolean);
   const contentIncludingLocationName = allRSSContent.filter((item) => {
     const title = item.title.toLowerCase();
