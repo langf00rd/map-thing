@@ -1,5 +1,6 @@
 import { RSS_URLS } from "@/lib/constants";
 import { POI } from "@/lib/types";
+import { getDomainFromURL } from "@/lib/utils";
 
 async function fetchRSS(location: string) {
   const allRSSContent = [];
@@ -9,17 +10,15 @@ async function fetchRSS(location: string) {
     allRSSContent.push(...content);
   }
 
-  const contentIncludingLocationName = allRSSContent.filter(
-    (item) =>
-      item.title.toLowerCase().includes(location.toLowerCase()) ||
-      item.description.toLowerCase().includes(location.toLowerCase()),
-  );
+  // const contentIncludingLocationName = allRSSContent.filter((item) =>
+  //   item.title.toLowerCase().includes(location.toLowerCase()),
+  // );
 
-  // const locationWords = location.toLowerCase().split(/\s+/).filter(Boolean); // split by space, remove empty
-  // const contentIncludingLocationName = allRSSContent.filter((item) => {
-  //   const title = item.title.toLowerCase();
-  //   return locationWords.some((word) => title.includes(word));
-  // });
+  const locationWords = location.toLowerCase().split(/\s+/).filter(Boolean);
+  const contentIncludingLocationName = allRSSContent.filter((item) => {
+    const title = item.title.toLowerCase();
+    return locationWords.some((word) => title.includes(word));
+  });
 
   return contentIncludingLocationName;
 }
@@ -35,11 +34,10 @@ export async function fetchRSSContent(url: string) {
     link: item.querySelector("link")?.textContent ?? "",
     pubDate: item.querySelector("pubDate")?.textContent ?? "",
     description: item.querySelector("description")?.textContent ?? "",
+    source: getDomainFromURL(String(item.querySelector("link")?.textContent)),
   }));
 }
 
 export async function getLocationInformation(poi: POI) {
-  const info = await fetchRSS(poi.name);
-  console.log("info", info);
-  return info;
+  return await fetchRSS(poi.name);
 }

@@ -45,10 +45,8 @@ export default function Chat(props: { pois: POI[] }) {
   if (props.pois.length < 1) return null;
 
   return (
-    <div className="space-y-2 bg-white px-4 md:shadow-xl rounded-2xl max-h-[60vh] overflow-y-scroll">
-      <h2 className="font-semibold sticky py-2 top-0 bg-white">
-        Assistant [BETA]
-      </h2>
+    <div className="map__overlay_card space-y-2 max-h-[60vh] overflow-y-scroll">
+      <h2 className="font-semibold sticky top-0 bg-white">Assistant [BETA]</h2>
       <ul className="space-y-5">
         {responses.map((a, index) => (
           <li key={index} className="text-sm space-y-1">

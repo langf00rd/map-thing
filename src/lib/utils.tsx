@@ -26,3 +26,8 @@ export function renderIconToSVG(Icon: LucideIcon, size = 16): string {
   const IconComponent = <Icon size={size} strokeWidth={1.5} />;
   return renderToStaticMarkup(IconComponent);
 }
+
+export function getDomainFromURL(url: string) {
+  if (!url) return null;
+  return new URL(url).host.split(".")[0];
+}

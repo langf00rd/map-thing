@@ -13,6 +13,7 @@ export type RSSFeedItem = {
   link: string;
   pubDate: string;
   description: string;
+  source: string | null;
 };
 
 export interface MapSearchResult {

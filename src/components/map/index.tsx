@@ -71,8 +71,8 @@ export default function Map() {
         <RightSidebarPortal>
           <CustomRadius onRadiusComplete={handleRadiusComplete} />
           {globalStore.selectedPOIInfo.length > 0 && (
-            <div className="bg-white p-3 rounded-md shadow-xl space-y-2">
-              <h2 className="font-semibold sticky py-2 top-0 bg-white">
+            <div className="map__overlay_card space-y-2">
+              <h2 className="font-semibold sticky top-0 bg-white">
                 Related News [BETA]
               </h2>
               <ul className="space-y-3">
@@ -81,9 +81,12 @@ export default function Map() {
                     <Link
                       href={a.link}
                       target="_blank"
-                      className="hover:underline"
+                      className="hover:underline space-y-1/2"
                     >
                       <p className="text-sm text-neutral-700">{a.title}</p>
+                      <p className="text-sm text-neutral-400">
+                        source: {a.source}
+                      </p>
                     </Link>
                   </li>
                 ))}
