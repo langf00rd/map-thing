@@ -30,13 +30,16 @@ export async function fetchRSSContent(url: string) {
   const parser = new DOMParser();
   const xml = parser.parseFromString(text, "application/xml");
   const items = Array.from(xml.querySelectorAll("item"));
-  return items.map((item) => ({
-    title: item.querySelector("title")?.textContent ?? "",
-    link: item.querySelector("link")?.textContent ?? "",
-    pubDate: item.querySelector("pubDate")?.textContent ?? "",
-    description: item.querySelector("description")?.textContent ?? "",
-    source: getDomainFromURL(String(item.querySelector("link")?.textContent)),
-  }));
+  return items.map((item) => {
+    //TODO: fetch and display source favicons
+    return {
+      title: item.querySelector("title")?.textContent ?? "",
+      link: item.querySelector("link")?.textContent ?? "",
+      pubDate: item.querySelector("pubDate")?.textContent ?? "",
+      description: item.querySelector("description")?.textContent ?? "",
+      source: getDomainFromURL(String(item.querySelector("link")?.textContent)),
+    };
+  });
 }
 
 export async function getLocationInformation(poi: POI) {
