@@ -1,7 +1,7 @@
 "use client";
 
-import { openRouterChatModel } from "@/lib/ai";
 import { SYSTEM_PROMPT } from "@/lib/ai/system-prompt";
+import { openRouterChatModel } from "@/lib/config/ai";
 import { POI } from "@/lib/types";
 import { generateObject } from "ai";
 import { BotIcon } from "lucide-react";
