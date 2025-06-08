@@ -1,5 +1,5 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
-import { GlobalStore, RSSFeedItem, Store } from "./types";
+import { GlobalStore, POI, RSSFeedItem, Store } from "./types";
 
 export const useMapStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   mapRadiusDrawingEnabled: false,
@@ -12,10 +12,12 @@ export const useMapStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
 export const useGlobalStore: UseBoundStore<StoreApi<GlobalStore>> = create(
   (set) => ({
     isLocationSearchInputInFocus: false,
-    selectedPOIInfo: [],
+    selectedPOIRSSNews: [],
+    selectedPOI: null,
     setIsLocationSearchInputInFocus: (state: boolean) =>
       set({ isLocationSearchInputInFocus: state }),
-    setSelectedPOIInformation: (data: RSSFeedItem[]) =>
-      set({ selectedPOIInfo: data }),
+    setSelectedPOIRSSNews: (data: RSSFeedItem[]) =>
+      set({ selectedPOIRSSNews: data }),
+    setSelectedPOI: (data: POI) => set({ selectedPOI: data }),
   }),
 );

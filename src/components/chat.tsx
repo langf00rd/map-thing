@@ -45,14 +45,14 @@ export default function Chat(props: { pois: POI[] }) {
   if (props.pois.length < 1) return null;
 
   return (
-    <div className="map__overlay_card p-4 pt-0 space-y-2 max-h-[50vh] overflow-y-scroll">
+    <div className="map__overlay_card p-4 py-0 space-y-2 max-h-[50vh] overflow-y-scroll">
       <h2 className="font-semibold sticky py-3 top-0 bg-white">
         Assistant [BETA]
       </h2>
       <ul className="space-y-5">
         {responses.map((a, index) => (
           <li key={index} className="text-sm space-y-1">
-            <BotIcon />
+            <BotIcon className="text-neutral-400" />
             <div className="space-y-1">
               <p className="leading-[1.6] text-neutral-700">{a.ai_message}</p>
               <ul className="gap-1 flex flex-wrap">

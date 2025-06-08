@@ -31,9 +31,11 @@ export interface Store {
 
 export interface GlobalStore {
   isLocationSearchInputInFocus: boolean;
-  selectedPOIInfo: RSSFeedItem[];
+  selectedPOIRSSNews: RSSFeedItem[];
+  selectedPOI: POI | null;
   setIsLocationSearchInputInFocus: (state: boolean) => void;
-  setSelectedPOIInformation: (data: RSSFeedItem[]) => void;
+  setSelectedPOIRSSNews: (data: RSSFeedItem[]) => void;
+  setSelectedPOI: (data: POI) => void;
 }
 
 export interface OverpassAPIElement {

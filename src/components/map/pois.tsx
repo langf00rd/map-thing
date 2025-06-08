@@ -40,8 +40,7 @@ export default function POIs(props: { pois: POI[]; isFetchingPOIs: boolean }) {
   async function handlePOIClick(poi: POI) {
     mapStore.setSelectedPOI(poi);
     const locationInformation = await getLocationInformation(poi);
-    globalStore.setSelectedPOIInformation(locationInformation);
-    console.log("LOCATION INFORMATION", locationInformation);
+    globalStore.setSelectedPOIRSSNews(locationInformation);
   }
 
   if (props.isFetchingPOIs) {

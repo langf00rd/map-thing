@@ -6,10 +6,10 @@ import { POI } from "@/lib/types";
 import { getAmenityProps, renderIconToSVG } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import Chat from "../chat";
+import POIInfo from "../poi-info";
 import RightSidebarPortal from "../right-sidebar";
 import SidebarPortal from "../sidebar";
 import CustomRadius from "./custom-radius";
@@ -70,29 +70,7 @@ export default function Map() {
 
         <RightSidebarPortal>
           <CustomRadius onRadiusComplete={handleRadiusComplete} />
-          {globalStore.selectedPOIInfo.length > 0 && (
-            <div className="map__overlay_card max-h-[50vh] overflow-y-scroll p-4 pt-0 space-y-2">
-              <h2 className="font-semibold sticky top-0 py-3 bg-white">
-                Related News [BETA]
-              </h2>
-              <ul className="space-y-3">
-                {globalStore.selectedPOIInfo.map((a) => (
-                  <li key={a.title}>
-                    <Link
-                      href={a.link}
-                      target="_blank"
-                      className="hover:underline space-y-1/2"
-                    >
-                      <p className="text-sm text-neutral-700">{a.title}</p>
-                      <p className="text-sm text-neutral-400">
-                        source: {a.source}
-                      </p>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <POIInfo />
           <Chat pois={pois} />
         </RightSidebarPortal>
 
