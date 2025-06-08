@@ -45,7 +45,7 @@ export default function Chat(props: { pois: POI[] }) {
   if (props.pois.length < 1) return null;
 
   return (
-    <div className="space-y-4 bg-white px-4 md:shadow-xl rounded-2xl max-h-[60vh] overflow-y-scroll">
+    <div className="space-y-2 bg-white px-4 md:shadow-xl rounded-2xl max-h-[60vh] overflow-y-scroll">
       <h2 className="font-semibold sticky py-2 top-0 bg-white">
         Assistant [BETA]
       </h2>

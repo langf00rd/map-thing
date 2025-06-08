@@ -21,7 +21,7 @@ export function useAppMap() {
         longitude,
       });
 
-      const results: POI[] = data.elements
+      const results = data.elements
         .filter(
           (el: OverpassAPIElement) =>
             el.tags && (el.lat || el.center) && !!el.tags.amenity,
@@ -33,7 +33,7 @@ export function useAppMap() {
           lat: el.lat || el.center.lat,
           lon: el.lon || el.center.lon,
           type: el.tags.amenity?.replaceAll("_", " "),
-        }));
+        })) as POI[];
 
       const limitedResults = results.slice(0, POIS_PER_RADIUS);
 

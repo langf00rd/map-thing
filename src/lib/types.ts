@@ -8,6 +8,13 @@ export interface POI {
   type: Amenity;
 }
 
+export type RSSFeedItem = {
+  title: string;
+  link: string;
+  pubDate: string;
+  description: string;
+};
+
 export interface MapSearchResult {
   display_name: string;
   lat: string;
@@ -23,7 +30,9 @@ export interface Store {
 
 export interface GlobalStore {
   isLocationSearchInputInFocus: boolean;
+  selectedPOIInfo: RSSFeedItem[];
   setIsLocationSearchInputInFocus: (state: boolean) => void;
+  setSelectedPOIInformation: (data: RSSFeedItem[]) => void;
 }
 
 export interface OverpassAPIElement {

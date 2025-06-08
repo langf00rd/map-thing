@@ -2,6 +2,7 @@ import { useIsMobileView } from "@/hooks/use-mobile-view";
 import { useGlobalStore, useMapStore } from "@/lib/store";
 import { Amenity, POI } from "@/lib/types";
 import { getAmenityProps } from "@/lib/utils";
+import { getLocationInformation } from "@/services/rss";
 import { Loader } from "lucide-react";
 import { useState } from "react";
 
@@ -35,6 +36,13 @@ export default function POIs(props: { pois: POI[]; isFetchingPOIs: boolean }) {
   }
 
   const amenities = getAmenitiesFromData();
+
+  async function handlePOIClick(poi: POI) {
+    mapStore.setSelectedPOI(poi);
+    const locationInformation = await getLocationInformation(poi);
+    globalStore.setSelectedPOIInformation(locationInformation);
+    console.log("LOCATION INFORMATION", locationInformation);
+  }
 
   if (props.isFetchingPOIs) {
     return (
@@ -74,7 +82,7 @@ export default function POIs(props: { pois: POI[]; isFetchingPOIs: boolean }) {
           return (
             <li
               role="button"
-              onClick={() => mapStore.setSelectedPOI(poi)}
+              onClick={() => handlePOIClick(poi)}
               key={poi.id}
               className={`p-3 py-2 flex gap-2 rounded-xl hover:bg-neutral-200/40 text-sm cursor-pointer ${mapStore.selectedPOI?.id === poi.id ? "bg-neutral-200/40" : ""}`}
             >
