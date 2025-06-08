@@ -18,6 +18,16 @@ import { Amenity, AmenityProps } from "./types";
 export const POIS_PER_RADIUS = 300;
 export const MOBILE_VIEW_BREAKPOINT = 768; // px
 
+export const RSS_URLS = [
+  "https://liveghanatv.com/feed/",
+  "https://accramail.com/feed/",
+  "https://ghheadlines.com/rss",
+  "https://www.myjoyonline.com/feed/",
+  "https://ghanaiantimes.com.gh/feed/",
+  "https://ghanaiantimes.com.gh/feed/",
+  "https://www.pulse.com.gh/rss",
+];
+
 export const amenityClasses: AmenityProps = {
   healthcareAmenityProps: {
     classes: [

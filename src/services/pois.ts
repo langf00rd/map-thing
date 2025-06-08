@@ -15,6 +15,7 @@ export async function fetchPOIs(props: {
 
   const res = await fetch(
     `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`,
+    { cache: "force-cache" }, // force cache response
   );
 
   if (!res.ok) throw new Error("error fetching POIs");

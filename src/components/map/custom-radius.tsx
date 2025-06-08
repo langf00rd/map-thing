@@ -30,7 +30,7 @@ export default function CustomRadius(props: {
       const dist = start.distanceTo(e.latlng);
       setTempRadius(dist);
     },
-    dblclick(e) {
+    preclick(e) {
       if (!start) return;
 
       const final = start.distanceTo(e.latlng);
