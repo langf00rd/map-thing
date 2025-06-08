@@ -29,5 +29,7 @@ export function renderIconToSVG(Icon: LucideIcon, size = 16): string {
 
 export function getDomainFromURL(url: string) {
   if (!url) return null;
-  return new URL(url).host.split(".")[0];
+  const splitURL = new URL(url).host.split(".");
+  if (splitURL[0] === "www" && splitURL[1]) return splitURL[1];
+  return splitURL[0];
 }
