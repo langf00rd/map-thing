@@ -71,8 +71,8 @@ export default function Map() {
         <RightSidebarPortal>
           <CustomRadius onRadiusComplete={handleRadiusComplete} />
           {globalStore.selectedPOIInfo.length > 0 && (
-            <div className="map__overlay_card space-y-2">
-              <h2 className="font-semibold sticky top-0 bg-white">
+            <div className="map__overlay_card max-h-[50vh] overflow-y-scroll p-4 pt-0 space-y-2">
+              <h2 className="font-semibold sticky top-0 py-3 bg-white">
                 Related News [BETA]
               </h2>
               <ul className="space-y-3">
