@@ -4,7 +4,9 @@ import { GlobalStore, POI, RSSFeedItem, Store } from "./types";
 export const useMapStore: UseBoundStore<StoreApi<Store>> = create((set) => ({
   mapRadiusDrawingEnabled: false,
   selectedPOI: null,
+  radii: 0, //in metres
   setSelectedPOI: (poi: Store["selectedPOI"]) => set({ selectedPOI: poi }),
+  setRadii: (poi: number) => set({ radii: poi }),
   setMapRadiusDrawingEnabled: (enabled: boolean) =>
     set({ mapRadiusDrawingEnabled: enabled }),
 }));

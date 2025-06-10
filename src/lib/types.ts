@@ -26,7 +26,9 @@ export interface Store {
   mapRadiusDrawingEnabled: boolean;
   setMapRadiusDrawingEnabled: (enabled: boolean) => void;
   selectedPOI: POI | null;
+  radii: number;
   setSelectedPOI: (poi: Store["selectedPOI"]) => void;
+  setRadii: (value: number) => void;
 }
 
 export interface GlobalStore {

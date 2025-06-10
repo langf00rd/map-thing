@@ -1,7 +1,7 @@
 "use client";
 
 import { useAppMap } from "@/hooks/use-map";
-import { useGlobalStore, useMapStore } from "@/lib/store";
+import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
 import { getAmenityProps, renderIconToSVG } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
@@ -12,7 +12,7 @@ import Chat from "../chat";
 import POIInfo from "../poi-info";
 import RightSidebarPortal from "../right-sidebar";
 import SidebarPortal from "../sidebar";
-import CustomRadius from "./custom-radius";
+import CustomRadius from "./radius";
 import { SearchHandler } from "./search-handler";
 
 L.Icon.Default.mergeOptions({
@@ -24,7 +24,6 @@ L.Icon.Default.mergeOptions({
 
 export default function Map() {
   const mapStore = useMapStore();
-  const globalStore = useGlobalStore();
 
   const markerRefs = useRef<{ [key: string]: L.Marker | null }>({});
   const { getPOIs, pois, center, setCenter, userLocation, isFetchingPOIs } =
