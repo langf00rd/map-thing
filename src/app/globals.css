@@ -125,5 +125,5 @@
 }
 
 .map__overlay_card {
-    @apply rounded-2xl md:shadow-xl bg-white;
+    @apply rounded-[20px] md:shadow-xl bg-[#ffffff77] backdrop-blur-[20px];
 }

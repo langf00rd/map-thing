@@ -46,7 +46,7 @@ export default function Chat(props: { pois: POI[] }) {
 
   return (
     <div className="map__overlay_card p-4 py-0 space-y-2 max-h-[50vh] overflow-y-scroll">
-      <h2 className="font-semibold sticky py-3 top-0 bg-white">
+      <h2 className="font-semibold sticky py-3 top-0 bg-[#eeeeed]">
         Assistant [BETA]
       </h2>
       <ul className="space-y-5">
@@ -69,7 +69,7 @@ export default function Chat(props: { pois: POI[] }) {
           </li>
         ))}
       </ul>
-      <div className="flex py-4 items-center gap-2 sticky bottom-0 z-10 bg-white">
+      <div className="flex py-4 items-center gap-2 sticky bottom-0 z-10 bg-[#eeeeed]">
         <Input
           value={query}
           onChange={(evt) => setQuery(evt.target.value)}
