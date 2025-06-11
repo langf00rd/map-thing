@@ -1,18 +1,18 @@
 "use client";
 
 import { useAppMap } from "@/hooks/use-map";
-import { useGlobalStore, useMapStore } from "@/lib/store";
+import { useMapStore } from "@/lib/store";
 import { POI } from "@/lib/types";
 import { getAmenityProps, renderIconToSVG } from "@/lib/utils";
 import L, { LatLng } from "leaflet";
 import "leaflet/dist/leaflet.css";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import Chat from "../chat";
+import POIInfo from "../poi-info";
 import RightSidebarPortal from "../right-sidebar";
 import SidebarPortal from "../sidebar";
-import CustomRadius from "./custom-radius";
+import CustomRadius from "./radius";
 import { SearchHandler } from "./search-handler";
 
 L.Icon.Default.mergeOptions({
@@ -24,7 +24,6 @@ L.Icon.Default.mergeOptions({
 
 export default function Map() {
   const mapStore = useMapStore();
-  const globalStore = useGlobalStore();
 
   const markerRefs = useRef<{ [key: string]: L.Marker | null }>({});
   const { getPOIs, pois, center, setCenter, userLocation, isFetchingPOIs } =
@@ -70,26 +69,7 @@ export default function Map() {
 
         <RightSidebarPortal>
           <CustomRadius onRadiusComplete={handleRadiusComplete} />
-          {globalStore.selectedPOIInfo.length > 0 && (
-            <div className="bg-white p-3 rounded-md shadow-xl space-y-2">
-              <h2 className="font-semibold sticky py-2 top-0 bg-white">
-                Related News [BETA]
-              </h2>
-              <ul className="space-y-3">
-                {globalStore.selectedPOIInfo.map((a) => (
-                  <li key={a.title}>
-                    <Link
-                      href={a.link}
-                      target="_blank"
-                      className="hover:underline"
-                    >
-                      <p className="text-sm text-neutral-700">{a.title}</p>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <POIInfo />
           <Chat pois={pois} />
         </RightSidebarPortal>
 

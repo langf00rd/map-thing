@@ -1,4 +1,6 @@
 import { LucideIcon } from "lucide-react";
+import { z } from "zod";
+import { aiChatSchema } from "./schema";
 
 export interface POI {
   id: string;
@@ -13,6 +15,7 @@ export type RSSFeedItem = {
   link: string;
   pubDate: string;
   description: string;
+  source: string | null;
 };
 
 export interface MapSearchResult {
@@ -25,14 +28,18 @@ export interface Store {
   mapRadiusDrawingEnabled: boolean;
   setMapRadiusDrawingEnabled: (enabled: boolean) => void;
   selectedPOI: POI | null;
+  radii: number;
   setSelectedPOI: (poi: Store["selectedPOI"]) => void;
+  setRadii: (value: number) => void;
 }
 
 export interface GlobalStore {
   isLocationSearchInputInFocus: boolean;
-  selectedPOIInfo: RSSFeedItem[];
+  selectedPOIRSSNews: RSSFeedItem[];
+  selectedPOI: POI | null;
   setIsLocationSearchInputInFocus: (state: boolean) => void;
-  setSelectedPOIInformation: (data: RSSFeedItem[]) => void;
+  setSelectedPOIRSSNews: (data: RSSFeedItem[]) => void;
+  setSelectedPOI: (data: POI) => void;
 }
 
 export interface OverpassAPIElement {
@@ -162,4 +169,9 @@ export enum Amenity {
   Shower = "shower",
   SwimmingPool = "swimming_pool",
   WaterPoint = "water_point",
+}
+
+export interface AIChat {
+  user: string;
+  ai: z.infer<typeof aiChatSchema>;
 }
