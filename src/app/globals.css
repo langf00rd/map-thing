@@ -123,3 +123,7 @@
 .leaflet-control-attribution {
     display: none;
 }
+
+.map__overlay_card {
+    @apply rounded-[20px] md:shadow-xl bg-[#ffffff77] backdrop-blur-[20px];
+}

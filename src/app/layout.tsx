@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -24,6 +25,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <div id="overlay-root"></div>
         {children}
+        <Toaster />
       </body>
     </html>
   );

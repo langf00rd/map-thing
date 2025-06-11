@@ -42,7 +42,7 @@ export default function SidebarPortal({
           {show ? <ChevronDown /> : <ChevronUp />}
         </Button>
       </div>
-      <div className="flex bg-white md:p-3 md:pb-0 md:shadow-xl md:rounded-2xl flex-col overflow-y-auto md:gap-2 h-fit max-h-[97vh]">
+      <div className="map__overlay_card flex md:p-3 md:pb-0 md:shadow-xl md:rounded-2xl flex-col overflow-y-auto md:gap-2 h-fit max-h-[97vh]">
         {children}
       </div>
     </div>,
