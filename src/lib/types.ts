@@ -1,4 +1,6 @@
 import { LucideIcon } from "lucide-react";
+import { z } from "zod";
+import { aiChatSchema } from "./schema";
 
 export interface POI {
   id: string;
@@ -167,4 +169,9 @@ export enum Amenity {
   Shower = "shower",
   SwimmingPool = "swimming_pool",
   WaterPoint = "water_point",
+}
+
+export interface AIChat {
+  user: string;
+  ai: z.infer<typeof aiChatSchema>;
 }

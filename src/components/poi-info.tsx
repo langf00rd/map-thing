@@ -1,18 +1,18 @@
-import { useGlobalStore, useMapStore } from "@/lib/store";
+import { useGlobalStore } from "@/lib/store";
 import { Calendar } from "lucide-react";
 import Link from "next/link";
+import BetaTag from "./beta-tag";
 
 export default function POIInfo() {
   const globalStore = useGlobalStore();
-  const mapStore = useMapStore();
 
   if (globalStore.selectedPOIRSSNews.length > 0) {
     return (
-      <div className="map__overlay_card max-h-[50vh] overflow-y-scroll p-4 pt-0 space-y-2">
-        <h2 className="font-semibold sticky top-0 py-3 bg-white">
-          Related News [BETA]
+      <div className="map__overlay_card max-h-[40vh] flex flex-col px-4 space-y-2">
+        <h2 className="font-semibold sticky top-0 pt-3">
+          Related News <BetaTag />
         </h2>
-        <ul className="space-y-5">
+        <ul className="space-y-5 overflow-y-scroll pb-5">
           {globalStore.selectedPOIRSSNews.map((a, index) => {
             // const isLocationRelatedToTitle = checkLocationMatchesRSSFeedTitle(
             //   mapStore.selectedPOI!.name,
